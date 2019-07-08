@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#fff">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#fff">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.2.0',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="实现单例模式单例模式第一版：1234567891011public class Singleton &amp;#123;    private Singleton() &amp;#123;&amp;#125;  //私有构造函数    private static Singleton instance = null;  //单例对象    //静态工厂方法    public static Singleton getIn">
+<meta name="keywords" content="design patterns">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式：单例模式">
+<meta property="og:url" content="http://www.sanmaoliu.com/2018/05/14/设计模式：单例模式/index.html">
+<meta property="og:site_name" content="三毛六的博客">
+<meta property="og:description" content="实现单例模式单例模式第一版：1234567891011public class Singleton &amp;#123;    private Singleton() &amp;#123;&amp;#125;  //私有构造函数    private static Singleton instance = null;  //单例对象    //静态工厂方法    public static Singleton getIn">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://coding.net/u/sanmaoliu/p/pictures/git/raw/master/单例模式1.jpg">
+<meta property="og:image" content="https://coding.net/u/sanmaoliu/p/pictures/git/raw/master/单例模式2.jpg">
+<meta property="og:image" content="https://coding.net/u/sanmaoliu/p/pictures/git/raw/master/单例模式3.jpg">
+<meta property="og:image" content="https://coding.net/u/sanmaoliu/p/pictures/git/raw/master/单例模式4.jpg">
+<meta property="og:image" content="https://coding.net/u/sanmaoliu/p/pictures/git/raw/master/单例模式5.jpg">
+<meta property="og:image" content="https://coding.net/u/sanmaoliu/p/pictures/git/raw/master/单例模式6.jpg">
+<meta property="og:image" content="https://coding.net/u/sanmaoliu/p/pictures/git/raw/master/单例模式7.jpg">
+<meta property="og:image" content="https://coding.net/u/sanmaoliu/p/pictures/git/raw/master/单例模式8.jpg">
+<meta property="og:image" content="https://coding.net/u/sanmaoliu/p/pictures/git/raw/master/单例模式9.jpg">
+<meta property="og:image" content="https://coding.net/u/sanmaoliu/p/pictures/git/raw/master/单例模式10.jpg">
+<meta property="og:image" content="https://coding.net/u/sanmaoliu/p/pictures/git/raw/master/单例模式11.jpg">
+<meta property="og:updated_time" content="2018-05-19T08:04:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式：单例模式">
+<meta name="twitter:description" content="实现单例模式单例模式第一版：1234567891011public class Singleton &amp;#123;    private Singleton() &amp;#123;&amp;#125;  //私有构造函数    private static Singleton instance = null;  //单例对象    //静态工厂方法    public static Singleton getIn">
+<meta name="twitter:image" content="https://coding.net/u/sanmaoliu/p/pictures/git/raw/master/单例模式1.jpg">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="三毛六的博客" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://www.sanmaoliu.com/2018/05/14/设计模式：单例模式/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>设计模式：单例模式 | 三毛六的博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	
+	<a href="https://github.com/17750669630" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">三毛六的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">你来了呀~ 快看看吧！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.sanmaoliu.com/2018/05/14/设计模式：单例模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="三毛六">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/assets/img/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="三毛六的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">设计模式：单例模式
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-14 14:31:34" itemprop="dateCreated datePublished" datetime="2018-05-14T14:31:34+08:00">2018-05-14</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-05-19 16:04:46" itemprop="dateModified" datetime="2018-05-19T16:04:46+08:00">2018-05-19</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+		 <!--以下部分为：字数统计、阅读时长插入代码-->
+         <span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">字数统计:</span>
+           <span class="post-count">1,996字</span>
+
+         </span>
+
+      <span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">阅读时长:</span>
+           <span class="post-count">8分</span>
+
+         </span>
+		
+		<!--以上部分为：字数统计、阅读时长插入代码-->
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="实现单例模式"><a href="#实现单例模式" class="headerlink" title="实现单例模式"></a>实现单例模式</h4><h5 id="单例模式第一版："><a href="#单例模式第一版：" class="headerlink" title="单例模式第一版："></a>单例模式第一版：</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;&#125;  <span class="comment">//私有构造函数</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">null</span>;  <span class="comment">//单例对象</span></span><br><span class="line">    <span class="comment">//静态工厂方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</span><br><span class="line">            instance = <span class="keyword">new</span> Singleton();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>为什么这样写呢？我们来解释几个关键点：</p>
+<p>1.要想让一个类只能构建一个对象，自然不能让它随便去做new操作，因此Signleton的构造方法是私有的。</p>
+<p>2.instance是Singleton类的静态成员，也是我们的单例对象。它的初始值可以写成Null，也可以写成new Singleton()。至于其中的区别后来会做解释。</p>
+<p>3.getInstance是获取单例对象的方法。</p>
+<p>如果单例初始值是null，还未构建，则构建单例对象并返回。这个写法属于单例模式当中的<strong>懒汉模式。</strong></p>
+<p>如果单例对象一开始就被new Singleton()主动构建，则不再需要判空操作，这种写法属于<strong>饿汉模式</strong>。</p>
+<p>这两个名字很形象：饿汉主动找食物吃，懒汉躺在地上等着人喂。</p>
+<h5 id="单例模式第二版：线程安全"><a href="#单例模式第二版：线程安全" class="headerlink" title="单例模式第二版：线程安全"></a>单例模式第二版：线程安全</h5><p>为什么说刚才的代码不是线程安全呢？</p>
+<p>假设Singleton类刚刚被初始化，instance对象还是空，这时候两个线程同时访问getInstance方法：</p>
+<p><img src="https://coding.net/u/sanmaoliu/p/pictures/git/raw/master/单例模式1.jpg" alt></p>
+<p>因为Instance是空，所以两个线程同时通过了条件判断，开始执行new操作：</p>
+<p><img src="https://coding.net/u/sanmaoliu/p/pictures/git/raw/master/单例模式2.jpg" alt></p>
+<p>这样一来，显然instance被构建了两次。让我们对代码做一下修改：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;&#125;  <span class="comment">//私有构造函数</span></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">null</span>;  <span class="comment">//单例对象</span></span><br><span class="line">   <span class="comment">//静态工厂方法</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;      <span class="comment">//双重检测机制</span></span><br><span class="line">         <span class="keyword">synchronized</span> (Singleton.class)&#123;  <span class="comment">//同步锁</span></span><br><span class="line">           <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;     <span class="comment">//双重检测机制</span></span><br><span class="line">             instance = <span class="keyword">new</span> Singleton();</span><br><span class="line">               &#125;</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为什么这样写呢？我们来解释几个关键点：</p>
+<p>1.为了防止new Singleton被执行多次，因此在new操作之前加上Synchronized 同步锁，锁住整个类（注意，这里不能使用对象锁）。</p>
+<p>2.进入Synchronized 临界区以后，还要再做一次判空。因为当两个线程同时访问的时候，线程A构建完对象，线程B也已经通过了最初的判空验证，不做第二次判空的话，线程B还是会再次构建instance对象。</p>
+<p><img src="https://coding.net/u/sanmaoliu/p/pictures/git/raw/master/单例模式3.jpg" alt></p>
+<p><img src="https://coding.net/u/sanmaoliu/p/pictures/git/raw/master/单例模式4.jpg" alt></p>
+<p><img src="https://coding.net/u/sanmaoliu/p/pictures/git/raw/master/单例模式5.jpg" alt></p>
+<p><img src="https://coding.net/u/sanmaoliu/p/pictures/git/raw/master/单例模式6.jpg" alt></p>
+<p><img src="https://coding.net/u/sanmaoliu/p/pictures/git/raw/master/单例模式7.jpg" alt></p>
+<p>像这样两次判空的机制叫做<strong>双重检测机制</strong>。</p>
+<h5 id="单例模式第三版：隐藏的漏洞"><a href="#单例模式第三版：隐藏的漏洞" class="headerlink" title="单例模式第三版：隐藏的漏洞"></a>单例模式第三版：隐藏的漏洞</h5><p>假设这样的场景，当两个线程一先一后访问getInstance方法的时候，当A线程正在构建对象，B线程刚刚进入方法：</p>
+<p><img src="https://coding.net/u/sanmaoliu/p/pictures/git/raw/master/单例模式8.jpg" alt></p>
+<p>这种情况表面看似没什么问题，要么Instance还没被线程A构建，线程B执行 if（instance == null）的时候得到true；要么Instance已经被线程A构建完成，线程B执行 if（instance == null）的时候得到false。</p>
+<p>真的如此吗？答案是否定的。这里涉及到了JVM编译器的<strong>指令重排</strong>。</p>
+<p>指令重排是什么意思呢？比如java中简单的一句 instance = new Singleton，会被编译器编译成如下JVM指令： </p>
+<p>memory =allocate();    //1：分配对象的内存空间  </p>
+<p>ctorInstance(memory);  //2：初始化对象 </p>
+<p>instance =memory;     //3：设置instance指向刚分配的内存地址 </p>
+<p>但是这些指令顺序并非一成不变，有可能会经过JVM和CPU的优化，指令重排成下面的顺序：</p>
+<p>memory =allocate();    //1：分配对象的内存空间 </p>
+<p>instance =memory;     //3：设置instance指向刚分配的内存地址 </p>
+<p>ctorInstance(memory);  //2：初始化对象 </p>
+<p>当线程A执行完1,3,时，instance对象还未完成初始化，但已经不再指向null。此时如果线程B抢占到CPU资源，执行  if（instance == null）的结果会是false，从而返回一个<strong>没有初始化完成的instance对象</strong>。如下图所示：</p>
+<p><img src="https://coding.net/u/sanmaoliu/p/pictures/git/raw/master/单例模式9.jpg" alt></p>
+<p><img src="https://coding.net/u/sanmaoliu/p/pictures/git/raw/master/单例模式10.jpg" alt></p>
+<p>如何避免这一情况呢？我们需要在instance对象前面增加一个修饰符<strong>volatile。</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;&#125;  <span class="comment">//私有构造函数</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">null</span>;  <span class="comment">//单例对象</span></span><br><span class="line">    <span class="comment">//静态工厂方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">          <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;      <span class="comment">//双重检测机制</span></span><br><span class="line">         <span class="keyword">synchronized</span> (Singleton.class)&#123;  <span class="comment">//同步锁</span></span><br><span class="line">           <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;     <span class="comment">//双重检测机制</span></span><br><span class="line">             instance = <span class="keyword">new</span> Singleton();</span><br><span class="line">                &#125;</span><br><span class="line">             &#125;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">return</span> instance;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>volatile</p>
+<blockquote>
+<p>The volatile keyword indicates that a value may change between different accesses, it prevents an optimizing compiler from optimizing away subsequent reads or writes and thus incorrectly reusing a stale value or omitting writes.</p>
+</blockquote>
+<p>经过volatile的修饰，当线程A执行instance = new Singleton的时候，JVM执行顺序是什么样？始终保证是下面的顺序：</p>
+<p>memory =allocate();    //1：分配对象的内存空间  </p>
+<p>ctorInstance(memory);  //2：初始化对象 </p>
+<p>instance =memory;     //3：设置instance指向刚分配的内存地址 </p>
+<p>如此在线程B看来，instance对象的引用要么指向null，要么指向一个初始化完毕的Instance，而不会出现某个中间态，保证了安全。</p>
+<h5 id="用静态内部类实现单例模式："><a href="#用静态内部类实现单例模式：" class="headerlink" title="用静态内部类实现单例模式："></a>用静态内部类实现单例模式：</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">LazyHolder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Singleton INSTANCE = <span class="keyword">new</span> Singleton();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span> <span class="params">()</span></span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> LazyHolder.INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里有几个需要注意的点：</p>
+<p>1.从外部无法访问静态内部类LazyHolder，只有当调用Singleton.getInstance方法的时候，才能得到单例对象INSTANCE。</p>
+<p>2.INSTANCE对象初始化的时机并不是在单例类Singleton被加载的时候，而是在调用getInstance方法，使得静态内部类LazyHolder被加载的时候。因此这种实现方式是利用<strong>classloader的加载机制</strong>来实现懒加载，并保证构建单例的线程安全。</p>
+<p>还存在一个问题无法防止利用反射来重复构建对象，先看下如何利用反射打破单例模式的约束</p>
+<p>如何利用反射打破单例模式的约束？其实很简单，我们来看下代码。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获得构造器</span></span><br><span class="line">Constructor con = Singleton.class.getDeclaredConstructor();</span><br><span class="line"><span class="comment">//设置为可访问</span></span><br><span class="line">con.setAccessible(<span class="keyword">true</span>);</span><br><span class="line"><span class="comment">//构造两个不同的对象</span></span><br><span class="line">Singleton singleton1 = (Singleton)con.newInstance();</span><br><span class="line">Singleton singleton2 = (Singleton)con.newInstance();</span><br><span class="line"><span class="comment">//验证是否是不同对象</span></span><br><span class="line">System.out.println(singleton1.equals(singleton2));</span><br></pre></td></tr></table></figure>
+<p>代码可以简单归纳为三个步骤：</p>
+<p>第一步，获得单例类的构造器。</p>
+<p>第二步，把构造器设置为可访问。</p>
+<p>第三步，使用newInstance方法构造对象。</p>
+<p>最后为了确认这两个对象是否真的是不同的对象，我们使用equals方法进行比较。毫无疑问，比较结果是false。 </p>
+<p><strong>用枚举实现单例模式来防止反射的构建方式</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> SingletonEnum &#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>让我们来做一个实验，仍然执行刚才的反射代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获得构造器</span></span><br><span class="line">Constructor con = SingletonEnum.class.getDeclaredConstructor();</span><br><span class="line"><span class="comment">//设置为可访问</span></span><br><span class="line">con.setAccessible(<span class="keyword">true</span>);</span><br><span class="line"><span class="comment">//构造两个不同的对象</span></span><br><span class="line">SingletonEnum singleton1 = (SingletonEnum)con.newInstance();</span><br><span class="line">SingletonEnum singleton2 = (SingletonEnum)con.newInstance();</span><br><span class="line"><span class="comment">//验证是否是不同对象</span></span><br><span class="line">System.out.println(singleton1.equals(singleton2));</span><br></pre></td></tr></table></figure>
+<p>执行获得构造器这一步的时候，抛出了如下异常：</p>
+<p>Exception in thread “main” java.lang.NoSuchMethodException: com.xiaohui.singleton.test.SingletonEnum.<init>()</init></p>
+<p>at java.lang.Class.getConstructor0(Class.java:2892)</p>
+<p>at java.lang.Class.getDeclaredConstructor(Class.java:2058)</p>
+<p>at com.xiaohui.singleton.test.SingletonTest.main(SingletonTest.java:22)</p>
+<p>at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</p>
+<p>at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)</p>
+<p>at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</p>
+<p>at java.lang.reflect.Method.invoke(Method.java:606)</p>
+<p>at com.intellij.rt.execution.application.AppMain.main(AppMain.java:134)</p>
+<p><img src="https://coding.net/u/sanmaoliu/p/pictures/git/raw/master/单例模式11.jpg" alt></p>
+<p><strong>几点补充：</strong></p>
+<ol>
+<li>volatile关键字不但可以防止指令重排，也可以保证线程访问的变量值是<strong>主内存中的最新值</strong>。有关volatile的详细原理，我在以后的漫画中会专门讲解。</li>
+<li>使用枚举实现的单例模式，不但可以防止利用反射强行构建单例对象，而且可以在枚举类对象被<strong>反序列化</strong>的时候，保证反序列的返回结果是同一对象。 </li>
+</ol>
+<p>对于其他方式实现的单例模式，如果既想要做到可序列化，又想要反序列化为同一对象，则必须实现<strong>readResolve</strong>方法。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/design-patterns/" rel="tag"><i class="fa fa-tag"></i> design patterns</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/11/Kotlin-Learning4/" rel="next" title="Kotlin Learning(5章)">
+                <i class="fa fa-chevron-left"></i> Kotlin Learning(5章)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/14/Kotlin-Learning5/" rel="prev" title="Kotlin Learning(6章)">
+                Kotlin Learning(6章) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+		<div class="sidebar-inner">
+
+		  
+
+		  
+			<ul class="sidebar-nav motion-element">
+			  <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+				文章目录
+			  </li>
+			  <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+				站点概览
+			  </li>
+			</ul>
+		  
+
+			  <section class="site-overview-wrap sidebar-panel">
+				<div class="site-overview">
+				  <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+					
+					  <img class="site-author-image" itemprop="image" src="/assets/img/head.jpg" alt="三毛六">
+					
+					  <p class="site-author-name" itemprop="name">三毛六</p>
+					  <p class="site-description motion-element" itemprop="description">编程学习，经验分享。<br>生活记录，文章摘抄。<br>随缘更新，欢迎收藏。</p>
+				  </div>
+
+				  
+					<nav class="site-state motion-element">
+					  
+						<div class="site-state-item site-state-posts">
+						
+						  <a href="/archives/">
+						
+							<span class="site-state-item-count">43</span>
+							<span class="site-state-item-name">日志</span>
+						  </a>
+						</div>
+					  
+
+					  
+
+					  
+						
+						
+						<div class="site-state-item site-state-tags">
+						  <a href="/tags/index.html">
+							
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							<span class="site-state-item-count">30</span>
+							<span class="site-state-item-name">标签</span>
+						  </a>
+						</div>
+					  
+					</nav>
+				  
+
+				  
+					<div class="feed-link motion-element">
+					  <a href="/atom.xml" rel="alternate">
+						<i class="fa fa-rss"></i>
+						RSS
+					  </a>
+					</div>
+				  
+
+				  
+					<div class="links-of-author motion-element">
+					  
+						<span class="links-of-author-item">
+						  <a href="https://github.com/17750669630" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+						  
+						</span>
+					  
+						<span class="links-of-author-item">
+						  <a href="mailto:1164999589@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+						  
+						</span>
+					  
+						<span class="links-of-author-item">
+						  <a href="https://blog.csdn.net/lp1164999589" target="_blank" title="CSDN"><i class="fa fa-fw fa-globe"></i>CSDN</a>
+						  
+						</span>
+					  
+						<span class="links-of-author-item">
+						  <a href="https://weibo.com/lp1164999589" target="_blank" title="weibo"><i class="fa fa-fw fa-weibo"></i>weibo</a>
+						  
+						</span>
+					  
+					</div>
+				  
+
+				  
+				  
+
+				  
+				  
+
+				  
+					
+				  
+				  
+
+				</div>
+			  </section>
+
+			  
+			  <!--noindex-->
+				<section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+				  <div class="post-toc">
+
+					
+					  
+					
+
+					
+					  <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#实现单例模式"><span class="nav-number">1.</span> <span class="nav-text">实现单例模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#单例模式第一版："><span class="nav-number">1.1.</span> <span class="nav-text">单例模式第一版：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#单例模式第二版：线程安全"><span class="nav-number">1.2.</span> <span class="nav-text">单例模式第二版：线程安全</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#单例模式第三版：隐藏的漏洞"><span class="nav-number">1.3.</span> <span class="nav-text">单例模式第三版：隐藏的漏洞</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#用静态内部类实现单例模式："><span class="nav-number">1.4.</span> <span class="nav-text">用静态内部类实现单例模式：</span></a></li></ol></li></ol></div>
+					
+
+				  </div>
+				</section>
+			  <!--/noindex-->
+			  
+
+			  
+		  
+				
+					<div class="audio-wrapper">
+						<audio loop="loop" preload="none" id="audioPlay">
+							<source src="/music/刘惜君 - 那时候的我.mp3" type="audio/mp3">
+							<!--<source src="https://coding.net/u/sanmaoliu/p/PrivatePhoto/git/raw/master/刘惜君那时候的我.mp3" type="audio/mp3">-->
+						</audio>
+						<div class="audio-left">
+						<img src="/images/play.png" id="audioPlayer">
+						</div>
+						<div class="audio-right">
+							<p style="max-width: 536px;">刘惜君-那时候的我</p>
+							<div class="progress-bar-bg" id="progressBarBg"><span id="progressDot"></span>
+								<div class="progress-bar" id="progressBar"></div>
+							</div>
+							<div class="audio-time"><span class="audio-length-current" id="audioCurTime">00:00</span><span class="audio-length-total" id="audioTotalTime">03:52</span></div>
+						</div>
+					</div>
+							
+				
+				
+
+			<!--<audio id="audio" src="/music/刘惜君 - 那时候的我.mp3" controls autoplay="true" width=230 height=86></audio>-->
+			<!--网易云音乐模块 iframe-->
+			<!--<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=255204&auto=0&height=66"></iframe>-->
+			<!--网易云音乐模块 flash-->
+			<!--<embed src="//music.163.com/style/swf/widget.swf?sid=255204&type=2&auto=0&width=200&height=32" width="200" height="52"  allowNetworking="all"></embed>-->
+		</div>
+		
+	<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function () {
+	// 控制音频文件名显示宽度
+
+	var maxW = $('.audio-right').width();
+	$('.audio-right p').css({
+		"max-width": maxW
+	});
+
+	initAudioEvent();
+	});
+
+	/**
+	 * 初始化音频控制事件
+	 */
+	function initAudioEvent() {
+		var audio = $('audio')[0];
+		$('#audioPlay').volume = 0.1;
+
+		// 点击播放/暂停图片时，控制音乐的播放与暂停
+		$('#audioPlayer').click(function () {
+			// 监听音频播放时间并更新进度条
+			audio.addEventListener('timeupdate', function () {
+				updateProgress(audio);
+			}, false);
+
+			// 监听播放完成事件
+			audio.addEventListener('ended', function () {
+				audioEnded();
+			}, false);
+
+			// 改变播放/暂停图片
+			if (audio.paused) {
+				// 开始播放当前点击的音频
+				audio.play();
+				$('#audioPlayer').attr('src', '/images/pause.png');
+			} else {
+				audio.pause();
+				$('#audioPlayer').attr('src', '/images/play.png');
+			}
+		});
+
+		
+		
+		// 点击进度条跳到指定点播放
+		// PS：此处不要用click，否则下面的拖动进度点事件有可能在此处触发，此时e.offsetX的值非常小，会导致进度条弹回开始处（简直不能忍！！）
+		$('#progressBarBg').on('mousedown', function (e) {
+			// 只有音乐开始播放后才可以调节，已经播放过但暂停了的也可以
+			if (!audio.paused) {
+				var pgsWidth = $('.progress-bar-bg').width();
+				var rate = e.offsetX / pgsWidth;
+				audio.currentTime = audio.duration * rate;
+				updateProgress(audio);
+			}
+			else if (audio.paused) {
+				audio.addEventListener('timeupdate', function () {
+					updateProgress(audio);
+				}, false);
+
+				// 监听播放完成事件
+				audio.addEventListener('ended', function () {
+					audioEnded();
+				}, false);
+
+				
+				var pgsWidth = $('.progress-bar-bg').width();
+				var rate = e.offsetX / pgsWidth;
+				
+				$('#progressBar').css('width', rate * 100 + '%');
+				$('#progressDot').css('left', rate * 100 + '%');
+				$('#audioCurTime').html(transTime(232 * rate));
+				
+				//audio.currentTime = audio.duration * rate;
+				audio.currentTime = 232 * rate;
+				
+				// 改变播放/暂停图片
+				// 开始播放当前点击的音频
+				audio.play();
+				$('#audioPlayer').attr('src', '/images/pause.png');
+	
+			}
+		});
+		
+		
+		
+	}
+
+	/**
+	 * 更新进度条与当前播放时间
+	 * @param {object} audio - audio对象
+	 */
+	function updateProgress(audio) {
+		var value = audio.currentTime / audio.duration;
+		$('#progressBar').css('width', value * 100 + '%');
+		$('#progressDot').css('left', value * 100 + '%');
+		$('#audioCurTime').html(transTime(audio.currentTime));
+	}
+
+	/**
+	 * 播放完成时把进度调回开始的位置
+	 */
+	function audioEnded() {
+		$('#progressBar').css('width', 0);
+		$('#progressDot').css('left', 0);
+		$('#audioCurTime').html('00:00');
+		$('#audioPlayer').attr('src', '/images/play.png');
+	}
+
+	/**
+	 * 音频播放时间换算
+	 * @param {number} value - 音频当前播放时间，单位秒
+	 */
+	function transTime(value) {
+		var time = "";
+		var h = parseInt(value / 3600);
+		value %= 3600;
+		var m = parseInt(value / 60);
+		var s = parseInt(value % 60);
+		if (h > 0) {
+			time = formatTime(h + ":" + m + ":" + s);
+		} else {
+			time = formatTime(m + ":" + s);
+		}
+
+		return time;
+	}
+
+	/**
+	 * 格式化时间显示，补零对齐
+	 * eg：2:4  -->  02:04
+	 * @param {string} value - 形如 h:m:s 的字符串 
+	 */
+	function formatTime(value) {
+		var time = "";
+		var s = value.split(':');
+		var i = 0;
+		for (; i < s.length - 1; i++) {
+			time += s[i].length == 1 ? ("0" + s[i]) : s[i];
+			time += ":";
+		}
+		time += s[i].length == 1 ? ("0" + s[i]) : s[i];
+
+		return time;
+	}
+	</script>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">三毛六</span>
+
+  
+
+  
+</div>
+
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:261343<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共48.2k字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="true"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.2.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+	
+	<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+	
+	
+	
+	
+	<!-- 页面点击小红心 -->
+	
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"react":{"opacityDefault":1,"opacityOnHover":1},"display":{"position":"left","width":150,"height":300,"vOffset":-120,"mobileShow":false},"log":false,"tagMode":false});</script></body>
+</html>
+
+
+
+<script type="text/javascript">
+/* 鼠标点击出现社会主义核心价值观 */
+var a_idx = 0;
+jQuery(document).ready(function($) {
+	var random=Math.floor(Math.random()*20+1);
+    var cls='change'+random;
+	$("body").attr("class", cls);
+
+    $("body").click(function(e) {
+		
+	var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正" ,"法治", "爱国", "敬业", "诚信", "友善");
+	var $i = $("<span/>").text(a[a_idx]);
+			a_idx = (a_idx + 1) % a.length;
+	var x = e.pageX,
+			y = e.pageY;
+			$i.css({
+				"z-index": 999,
+				"top": y - 20,
+				"left": x,
+				"position": "absolute",
+				"font-weight": "bold",
+				"color": "#ff6651",
+				"-webkit-user-select": "none",
+				"-moz-user-select": "none",
+				"-ms-user-select": "none",
+				"user-select": "none"
+			});
+			$("body").append($i);
+			$i.animate({
+				"top": y - 180,
+				"opacity": 0
+			},
+			1500,
+			function() {
+				$i.remove();
+			});
+			
+			
+    });
+});
+
+
+
+</script>
+

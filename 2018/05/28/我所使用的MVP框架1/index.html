@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#fff">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#fff">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.2.0',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="这个配置的方法是在CoreBaseMVP借鉴而来。Rxjava给它升级到了2.X的版本。本章包含以下内容。  AppContext和AppManager BaseModel和BaseView BasePresenter和与RxManager">
+<meta name="keywords" content="MVP,Frame">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我所使用的MVP框架1">
+<meta property="og:url" content="http://www.sanmaoliu.com/2018/05/28/我所使用的MVP框架1/index.html">
+<meta property="og:site_name" content="三毛六的博客">
+<meta property="og:description" content="这个配置的方法是在CoreBaseMVP借鉴而来。Rxjava给它升级到了2.X的版本。本章包含以下内容。  AppContext和AppManager BaseModel和BaseView BasePresenter和与RxManager">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-05-28T08:31:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="我所使用的MVP框架1">
+<meta name="twitter:description" content="这个配置的方法是在CoreBaseMVP借鉴而来。Rxjava给它升级到了2.X的版本。本章包含以下内容。  AppContext和AppManager BaseModel和BaseView BasePresenter和与RxManager">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="三毛六的博客" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://www.sanmaoliu.com/2018/05/28/我所使用的MVP框架1/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>我所使用的MVP框架1 | 三毛六的博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	
+	<a href="https://github.com/17750669630" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">三毛六的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">你来了呀~ 快看看吧！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.sanmaoliu.com/2018/05/28/我所使用的MVP框架1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="三毛六">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/assets/img/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="三毛六的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">我所使用的MVP框架1
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-28 15:49:26 / 修改时间：16:31:34" itemprop="dateCreated datePublished" datetime="2018-05-28T15:49:26+08:00">2018-05-28</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+		 <!--以下部分为：字数统计、阅读时长插入代码-->
+         <span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">字数统计:</span>
+           <span class="post-count">1,167字</span>
+
+         </span>
+
+      <span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">阅读时长:</span>
+           <span class="post-count">6分</span>
+
+         </span>
+		
+		<!--以上部分为：字数统计、阅读时长插入代码-->
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这个配置的方法是在CoreBaseMVP借鉴而来。Rxjava给它升级到了2.X的版本。本章包含以下内容。</p>
+<ol>
+<li>AppContext和AppManager</li>
+<li>BaseModel和BaseView</li>
+<li>BasePresenter和与RxManager</li>
+</ol>
+<a id="more"></a>
+<h4 id="1-AppContext和AppManager"><a href="#1-AppContext和AppManager" class="headerlink" title="1. AppContext和AppManager"></a>1. AppContext和AppManager</h4><p>AppContext.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Application;</span><br><span class="line"><span class="keyword">import</span> me.yokeyword.fragmentation.Fragmentation;</span><br><span class="line"><span class="keyword">import</span> me.yokeyword.fragmentation.helper.ExceptionHandler;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@time</span>:2018/5/18 at 15:12</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span>: 获取应用实例和Fragmentation栈视图</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppContext</span> <span class="keyword">extends</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> AppContext instance;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> AppContext <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate();</span><br><span class="line">        instance = <span class="keyword">this</span>;</span><br><span class="line"></span><br><span class="line">        Fragmentation.builder()</span><br><span class="line">                <span class="comment">// 设置 栈视图 模式为 （默认）悬浮球模式   SHAKE: 摇一摇唤出  NONE：隐藏， 仅在Debug环境生效</span></span><br><span class="line">                .stackViewMode(Fragmentation.BUBBLE)</span><br><span class="line">                <span class="comment">//.stackViewMode(Fragmentation.SHAKE)</span></span><br><span class="line">                .debug(<span class="keyword">true</span>) <span class="comment">// 实际场景建议.debug(BuildConfig.DEBUG)</span></span><br><span class="line">                <span class="comment">/**</span></span><br><span class="line"><span class="comment">                 * 可以获取到&#123;<span class="doctag">@link</span> me.yokeyword.fragmentation.exception.AfterSaveStateTransactionWarning&#125;</span></span><br><span class="line"><span class="comment">                 * 在遇到After onSaveInstanceState时，不会抛出异常，会回调到下面的ExceptionHandler</span></span><br><span class="line"><span class="comment">                 */</span></span><br><span class="line">                .handleException(<span class="keyword">new</span> ExceptionHandler() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onException</span><span class="params">(Exception e)</span> </span>&#123;</span><br><span class="line">                        <span class="comment">// 以Bugtags为例子: 把捕获到的 Exception 传到 Bugtags 后台。</span></span><br><span class="line">                        <span class="comment">// Bugtags.sendException(e);</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;)</span><br><span class="line">                .install();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用AppContext.getInstance()获取当前App的Context，在一些不便获取Context的时候调用。</p>
+<p>记得更改AndroidManifest.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:name</span>=<span class="string">"com.herocheer.common.mvp.AppContext"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:allowBackup</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:roundIcon</span>=<span class="string">"@mipmap/ic_launcher_round"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:supportsRtl</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:theme</span>=<span class="string">"@style/AppTheme.NoActionBar"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Fragmentation相关参见博客相关介绍。实现单Activity多Fragement模式。</p>
+<p>AppManager.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.app.ActivityManager;</span><br><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Stack;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@time</span>:2018/5/18 at 15:49</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span>: 控制Activity栈</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppManager</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Stack&lt;Activity&gt; activityStack;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> AppManager instance;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">AppManager</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 单一实例</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> AppManager <span class="title">getAppManager</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</span><br><span class="line">            instance = <span class="keyword">new</span> AppManager();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 添加Activity到堆栈</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addActivity</span><span class="params">(Activity activity)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (activityStack == <span class="keyword">null</span>) &#123;</span><br><span class="line">            activityStack = <span class="keyword">new</span> Stack&lt;Activity&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        activityStack.add(activity);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取当前Activity（堆栈中最后一个压入的）</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Activity <span class="title">currentActivity</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Activity activity = activityStack.lastElement();</span><br><span class="line">        <span class="keyword">return</span> activity;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 结束当前Activity（堆栈中最后一个压入的）</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">finishActivity</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Activity activity = activityStack.lastElement();</span><br><span class="line">        finishActivity(activity);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 结束指定的Activity</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">finishActivity</span><span class="params">(Activity activity)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (activity != <span class="keyword">null</span>) &#123;</span><br><span class="line">            activityStack.remove(activity);</span><br><span class="line">            activity.finish();</span><br><span class="line">            activity = <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 结束指定类名的Activity</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">finishActivity</span><span class="params">(Class&lt;?&gt; cls)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (Activity activity : activityStack) &#123;</span><br><span class="line">            <span class="keyword">if</span> (activity.getClass().equals(cls)) &#123;</span><br><span class="line">                finishActivity(activity);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 结束所有Activity</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">finishAllActivity</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, size = activityStack.size(); i &lt; size; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">null</span> != activityStack.get(i)) &#123;</span><br><span class="line">                activityStack.get(i).finish();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        activityStack.clear();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 退出应用程序</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">AppExit</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            finishAllActivity();</span><br><span class="line">            ActivityManager activityMgr =</span><br><span class="line">                    (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);</span><br><span class="line">            <span class="keyword">assert</span> activityMgr != <span class="keyword">null</span>;</span><br><span class="line">            activityMgr.killBackgroundProcesses(context.getPackageName());</span><br><span class="line">            System.exit(<span class="number">0</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isAppExit</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> activityStack == <span class="keyword">null</span> || activityStack.isEmpty();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>AppExit(Context context)的方法需要添加权限<uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"></uses-permission></p>
+<h4 id="2-BaseModel和BaseView"><a href="#2-BaseModel和BaseView" class="headerlink" title="2. BaseModel和BaseView"></a>2. BaseModel和BaseView</h4><p>BaseModel.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@time</span>:2018/5/18 at 15:03</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span>: BaseModel</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BaseModel</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>BaseView.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@time</span>:2018/5/18 at 15:03</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span>: BaseView</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BaseView</span> </span>&#123;</span><br><span class="line">    <span class="function">Context <span class="title">getContext</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">showError</span><span class="params">(String msg)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这两个类没啥好说的getContext()是为了在Presenter中方便获取环境</p>
+<p>showError()是为了在View层进行统一错误处理。</p>
+<h4 id="3-BasePresenter和RxManager"><a href="#3-BasePresenter和RxManager" class="headerlink" title="3. BasePresenter和RxManager"></a>3. BasePresenter和RxManager</h4><p>BasePresenter.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.herocheer.common.RxManager;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@time</span>:2018/5/18 at 15:04</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span>: BasePresenter</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">BasePresenter</span>&lt;<span class="title">M</span>, <span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> M mModel;</span><br><span class="line">    <span class="keyword">public</span> T mView;</span><br><span class="line">    <span class="keyword">public</span> RxManager mRxManager = <span class="keyword">new</span> RxManager();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attachVM</span><span class="params">(T v, M m)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mView = v;</span><br><span class="line">        <span class="keyword">this</span>.mModel = m;</span><br><span class="line">        <span class="keyword">this</span>.onStart();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">detachVM</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mRxManager.clear();</span><br><span class="line">        mView = <span class="keyword">null</span>;</span><br><span class="line">        mModel = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">onStart</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用了泛型类将MVP三层联系在一起RxManager做统一的观察者销毁。</p>
+<p>RxManager.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> io.reactivex.Observable;</span><br><span class="line"><span class="keyword">import</span> io.reactivex.android.schedulers.AndroidSchedulers;</span><br><span class="line"><span class="keyword">import</span> io.reactivex.disposables.CompositeDisposable;</span><br><span class="line"><span class="keyword">import</span> io.reactivex.disposables.Disposable;</span><br><span class="line"><span class="keyword">import</span> io.reactivex.functions.Consumer;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@time</span>:2018/5/18 at 16:05</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span>:</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RxManager</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> RxBus mRxBus = RxBus.getInstance();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 管理观察源</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> Map&lt;String, Observable&lt;?&gt;&gt; mObservableMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 管理订阅者</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> CompositeDisposable mCompositeSubscription = <span class="keyword">new</span> CompositeDisposable();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">on</span><span class="params">(String eventName, Consumer&lt;Object&gt; consumer)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 注册</span></span><br><span class="line">        Observable&lt;?&gt; mObservable = mRxBus.register(eventName);</span><br><span class="line"></span><br><span class="line">        mObservableMap.put(eventName, mObservable);</span><br><span class="line"></span><br><span class="line">        mCompositeSubscription</span><br><span class="line">                .add(mObservable.observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">                        .subscribe(consumer, <span class="keyword">new</span> Consumer&lt;Throwable&gt;() &#123;</span><br><span class="line">                            <span class="meta">@Override</span></span><br><span class="line">                            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(Throwable throwable)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                                throwable.printStackTrace();</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;));</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 添加订阅者到mCompositeSubscription</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> m 要添加的订阅者</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(Disposable m)</span> </span>&#123;</span><br><span class="line">        mCompositeSubscription.add(m);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 取消所有注册</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 取消订阅</span></span><br><span class="line">        mCompositeSubscription.dispose();</span><br><span class="line">        <span class="keyword">for</span> (Map.Entry&lt;String, Observable&lt;?&gt;&gt; entry : mObservableMap.entrySet()) &#123;</span><br><span class="line">            <span class="comment">// 取消注册</span></span><br><span class="line">            mRxBus.unregister(entry.getKey(), entry.getValue());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 触发事件</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> tag</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> content</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">post</span><span class="params">(Object tag, Object content)</span> </span>&#123;</span><br><span class="line">        mRxBus.post(tag, content);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MVP/" rel="tag"><i class="fa fa-tag"></i> MVP</a>
+          
+            <a href="/tags/Frame/" rel="tag"><i class="fa fa-tag"></i> Frame</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/25/gradle备份/" rel="next" title="gradle备份">
+                <i class="fa fa-chevron-left"></i> gradle备份
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/28/我所使用的MVP框架2/" rel="prev" title="我所使用的MVP框架2">
+                我所使用的MVP框架2 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+		<div class="sidebar-inner">
+
+		  
+
+		  
+			<ul class="sidebar-nav motion-element">
+			  <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+				文章目录
+			  </li>
+			  <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+				站点概览
+			  </li>
+			</ul>
+		  
+
+			  <section class="site-overview-wrap sidebar-panel">
+				<div class="site-overview">
+				  <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+					
+					  <img class="site-author-image" itemprop="image" src="/assets/img/head.jpg" alt="三毛六">
+					
+					  <p class="site-author-name" itemprop="name">三毛六</p>
+					  <p class="site-description motion-element" itemprop="description">编程学习，经验分享。<br>生活记录，文章摘抄。<br>随缘更新，欢迎收藏。</p>
+				  </div>
+
+				  
+					<nav class="site-state motion-element">
+					  
+						<div class="site-state-item site-state-posts">
+						
+						  <a href="/archives/">
+						
+							<span class="site-state-item-count">43</span>
+							<span class="site-state-item-name">日志</span>
+						  </a>
+						</div>
+					  
+
+					  
+
+					  
+						
+						
+						<div class="site-state-item site-state-tags">
+						  <a href="/tags/index.html">
+							
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							<span class="site-state-item-count">30</span>
+							<span class="site-state-item-name">标签</span>
+						  </a>
+						</div>
+					  
+					</nav>
+				  
+
+				  
+					<div class="feed-link motion-element">
+					  <a href="/atom.xml" rel="alternate">
+						<i class="fa fa-rss"></i>
+						RSS
+					  </a>
+					</div>
+				  
+
+				  
+					<div class="links-of-author motion-element">
+					  
+						<span class="links-of-author-item">
+						  <a href="https://github.com/17750669630" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+						  
+						</span>
+					  
+						<span class="links-of-author-item">
+						  <a href="mailto:1164999589@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+						  
+						</span>
+					  
+						<span class="links-of-author-item">
+						  <a href="https://blog.csdn.net/lp1164999589" target="_blank" title="CSDN"><i class="fa fa-fw fa-globe"></i>CSDN</a>
+						  
+						</span>
+					  
+						<span class="links-of-author-item">
+						  <a href="https://weibo.com/lp1164999589" target="_blank" title="weibo"><i class="fa fa-fw fa-weibo"></i>weibo</a>
+						  
+						</span>
+					  
+					</div>
+				  
+
+				  
+				  
+
+				  
+				  
+
+				  
+					
+				  
+				  
+
+				</div>
+			  </section>
+
+			  
+			  <!--noindex-->
+				<section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+				  <div class="post-toc">
+
+					
+					  
+					
+
+					
+					  <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-AppContext和AppManager"><span class="nav-number">1.</span> <span class="nav-text">1. AppContext和AppManager</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-BaseModel和BaseView"><span class="nav-number">2.</span> <span class="nav-text">2. BaseModel和BaseView</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-BasePresenter和RxManager"><span class="nav-number">3.</span> <span class="nav-text">3. BasePresenter和RxManager</span></a></li></ol></div>
+					
+
+				  </div>
+				</section>
+			  <!--/noindex-->
+			  
+
+			  
+		  
+				
+					<div class="audio-wrapper">
+						<audio loop="loop" preload="none" id="audioPlay">
+							<source src="/music/刘惜君 - 那时候的我.mp3" type="audio/mp3">
+							<!--<source src="https://coding.net/u/sanmaoliu/p/PrivatePhoto/git/raw/master/刘惜君那时候的我.mp3" type="audio/mp3">-->
+						</audio>
+						<div class="audio-left">
+						<img src="/images/play.png" id="audioPlayer">
+						</div>
+						<div class="audio-right">
+							<p style="max-width: 536px;">刘惜君-那时候的我</p>
+							<div class="progress-bar-bg" id="progressBarBg"><span id="progressDot"></span>
+								<div class="progress-bar" id="progressBar"></div>
+							</div>
+							<div class="audio-time"><span class="audio-length-current" id="audioCurTime">00:00</span><span class="audio-length-total" id="audioTotalTime">03:52</span></div>
+						</div>
+					</div>
+							
+				
+				
+
+			<!--<audio id="audio" src="/music/刘惜君 - 那时候的我.mp3" controls autoplay="true" width=230 height=86></audio>-->
+			<!--网易云音乐模块 iframe-->
+			<!--<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=255204&auto=0&height=66"></iframe>-->
+			<!--网易云音乐模块 flash-->
+			<!--<embed src="//music.163.com/style/swf/widget.swf?sid=255204&type=2&auto=0&width=200&height=32" width="200" height="52"  allowNetworking="all"></embed>-->
+		</div>
+		
+	<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function () {
+	// 控制音频文件名显示宽度
+
+	var maxW = $('.audio-right').width();
+	$('.audio-right p').css({
+		"max-width": maxW
+	});
+
+	initAudioEvent();
+	});
+
+	/**
+	 * 初始化音频控制事件
+	 */
+	function initAudioEvent() {
+		var audio = $('audio')[0];
+		$('#audioPlay').volume = 0.1;
+
+		// 点击播放/暂停图片时，控制音乐的播放与暂停
+		$('#audioPlayer').click(function () {
+			// 监听音频播放时间并更新进度条
+			audio.addEventListener('timeupdate', function () {
+				updateProgress(audio);
+			}, false);
+
+			// 监听播放完成事件
+			audio.addEventListener('ended', function () {
+				audioEnded();
+			}, false);
+
+			// 改变播放/暂停图片
+			if (audio.paused) {
+				// 开始播放当前点击的音频
+				audio.play();
+				$('#audioPlayer').attr('src', '/images/pause.png');
+			} else {
+				audio.pause();
+				$('#audioPlayer').attr('src', '/images/play.png');
+			}
+		});
+
+		
+		
+		// 点击进度条跳到指定点播放
+		// PS：此处不要用click，否则下面的拖动进度点事件有可能在此处触发，此时e.offsetX的值非常小，会导致进度条弹回开始处（简直不能忍！！）
+		$('#progressBarBg').on('mousedown', function (e) {
+			// 只有音乐开始播放后才可以调节，已经播放过但暂停了的也可以
+			if (!audio.paused) {
+				var pgsWidth = $('.progress-bar-bg').width();
+				var rate = e.offsetX / pgsWidth;
+				audio.currentTime = audio.duration * rate;
+				updateProgress(audio);
+			}
+			else if (audio.paused) {
+				audio.addEventListener('timeupdate', function () {
+					updateProgress(audio);
+				}, false);
+
+				// 监听播放完成事件
+				audio.addEventListener('ended', function () {
+					audioEnded();
+				}, false);
+
+				
+				var pgsWidth = $('.progress-bar-bg').width();
+				var rate = e.offsetX / pgsWidth;
+				
+				$('#progressBar').css('width', rate * 100 + '%');
+				$('#progressDot').css('left', rate * 100 + '%');
+				$('#audioCurTime').html(transTime(232 * rate));
+				
+				//audio.currentTime = audio.duration * rate;
+				audio.currentTime = 232 * rate;
+				
+				// 改变播放/暂停图片
+				// 开始播放当前点击的音频
+				audio.play();
+				$('#audioPlayer').attr('src', '/images/pause.png');
+	
+			}
+		});
+		
+		
+		
+	}
+
+	/**
+	 * 更新进度条与当前播放时间
+	 * @param {object} audio - audio对象
+	 */
+	function updateProgress(audio) {
+		var value = audio.currentTime / audio.duration;
+		$('#progressBar').css('width', value * 100 + '%');
+		$('#progressDot').css('left', value * 100 + '%');
+		$('#audioCurTime').html(transTime(audio.currentTime));
+	}
+
+	/**
+	 * 播放完成时把进度调回开始的位置
+	 */
+	function audioEnded() {
+		$('#progressBar').css('width', 0);
+		$('#progressDot').css('left', 0);
+		$('#audioCurTime').html('00:00');
+		$('#audioPlayer').attr('src', '/images/play.png');
+	}
+
+	/**
+	 * 音频播放时间换算
+	 * @param {number} value - 音频当前播放时间，单位秒
+	 */
+	function transTime(value) {
+		var time = "";
+		var h = parseInt(value / 3600);
+		value %= 3600;
+		var m = parseInt(value / 60);
+		var s = parseInt(value % 60);
+		if (h > 0) {
+			time = formatTime(h + ":" + m + ":" + s);
+		} else {
+			time = formatTime(m + ":" + s);
+		}
+
+		return time;
+	}
+
+	/**
+	 * 格式化时间显示，补零对齐
+	 * eg：2:4  -->  02:04
+	 * @param {string} value - 形如 h:m:s 的字符串 
+	 */
+	function formatTime(value) {
+		var time = "";
+		var s = value.split(':');
+		var i = 0;
+		for (; i < s.length - 1; i++) {
+			time += s[i].length == 1 ? ("0" + s[i]) : s[i];
+			time += ":";
+		}
+		time += s[i].length == 1 ? ("0" + s[i]) : s[i];
+
+		return time;
+	}
+	</script>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">三毛六</span>
+
+  
+
+  
+</div>
+
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:261343<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共48.2k字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="true"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.2.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+	
+	<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+	
+	
+	
+	
+	<!-- 页面点击小红心 -->
+	
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"react":{"opacityDefault":1,"opacityOnHover":1},"display":{"position":"left","width":150,"height":300,"vOffset":-120,"mobileShow":false},"log":false,"tagMode":false});</script></body>
+</html>
+
+
+
+<script type="text/javascript">
+/* 鼠标点击出现社会主义核心价值观 */
+var a_idx = 0;
+jQuery(document).ready(function($) {
+	var random=Math.floor(Math.random()*20+1);
+    var cls='change'+random;
+	$("body").attr("class", cls);
+
+    $("body").click(function(e) {
+		
+	var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正" ,"法治", "爱国", "敬业", "诚信", "友善");
+	var $i = $("<span/>").text(a[a_idx]);
+			a_idx = (a_idx + 1) % a.length;
+	var x = e.pageX,
+			y = e.pageY;
+			$i.css({
+				"z-index": 999,
+				"top": y - 20,
+				"left": x,
+				"position": "absolute",
+				"font-weight": "bold",
+				"color": "#ff6651",
+				"-webkit-user-select": "none",
+				"-moz-user-select": "none",
+				"-ms-user-select": "none",
+				"user-select": "none"
+			});
+			$("body").append($i);
+			$i.animate({
+				"top": y - 180,
+				"opacity": 0
+			},
+			1500,
+			function() {
+				$i.remove();
+			});
+			
+			
+    });
+});
+
+
+
+</script>
+

@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#fff">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#fff">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.2.0',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="ImageViewer  Glide v4实现图片旋转 Glide v4实现高斯模糊 如果宽度大于长度则旋转">
+<meta name="keywords" content="Android,App">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ImageViewer应用1">
+<meta property="og:url" content="http://www.sanmaoliu.com/2018/06/11/ImageViewer1/index.html">
+<meta property="og:site_name" content="三毛六的博客">
+<meta property="og:description" content="ImageViewer  Glide v4实现图片旋转 Glide v4实现高斯模糊 如果宽度大于长度则旋转">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-06-11T08:17:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ImageViewer应用1">
+<meta name="twitter:description" content="ImageViewer  Glide v4实现图片旋转 Glide v4实现高斯模糊 如果宽度大于长度则旋转">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="三毛六的博客" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://www.sanmaoliu.com/2018/06/11/ImageViewer1/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>ImageViewer应用1 | 三毛六的博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	
+	<a href="https://github.com/17750669630" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">三毛六的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">你来了呀~ 快看看吧！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.sanmaoliu.com/2018/06/11/ImageViewer1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="三毛六">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/assets/img/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="三毛六的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ImageViewer应用1
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-06-11 16:17:45 / 修改时间：16:17:50" itemprop="dateCreated datePublished" datetime="2018-06-11T16:17:45+08:00">2018-06-11</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+		 <!--以下部分为：字数统计、阅读时长插入代码-->
+         <span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">字数统计:</span>
+           <span class="post-count">1,184字</span>
+
+         </span>
+
+      <span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">阅读时长:</span>
+           <span class="post-count">7分</span>
+
+         </span>
+		
+		<!--以上部分为：字数统计、阅读时长插入代码-->
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>ImageViewer</p>
+<ol>
+<li>Glide v4实现图片旋转</li>
+<li>Glide v4实现高斯模糊</li>
+<li>如果宽度大于长度则旋转</li>
+</ol>
+<a id="more"></a>
+<h4 id="Glide-v4实现图片旋转"><a href="#Glide-v4实现图片旋转" class="headerlink" title="Glide v4实现图片旋转"></a>Glide v4实现图片旋转</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.graphics.Bitmap;</span><br><span class="line"><span class="keyword">import</span> android.graphics.Matrix;</span><br><span class="line"><span class="keyword">import</span> android.support.annotation.NonNull;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;</span><br><span class="line"><span class="keyword">import</span> com.bumptech.glide.load.resource.bitmap.BitmapTransformation;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.security.MessageDigest;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@time</span>:2018/6/9 at 15:57</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span>: Glide实现图片旋转</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RotateTransformation</span> <span class="keyword">extends</span> <span class="title">BitmapTransformation</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> rotateRotationAngle = <span class="number">0f</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">RotateTransformation</span><span class="params">(Context context, <span class="keyword">float</span> rotateRotationAngle)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.rotateRotationAngle = rotateRotationAngle;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> Bitmap <span class="title">transform</span><span class="params">(BitmapPool pool, Bitmap toTransform, <span class="keyword">int</span> outWidth, <span class="keyword">int</span> outHeight)</span> <span class="keyword">throws</span></span></span><br><span class="line"><span class="function">            OutOfMemoryError </span>&#123;</span><br><span class="line">        Matrix matrix = <span class="keyword">new</span> Matrix();</span><br><span class="line">        matrix.postRotate(rotateRotationAngle);</span><br><span class="line">        <span class="keyword">return</span> Bitmap.createBitmap(toTransform, <span class="number">0</span>, <span class="number">0</span>, toTransform.getWidth(), toTransform.getHeight(), matrix, <span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateDiskCacheKey</span><span class="params">(@NonNull MessageDigest messageDigest)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Glide.with(getActivity())</span><br><span class="line">	.load(resource)</span><br><span class="line">	.apply(<span class="keyword">new</span> RequestOptions().transform(<span class="keyword">new</span> RotateTransformation(getContext(), <span class="number">90f</span>)))</span><br><span class="line">	.into();</span><br></pre></td></tr></table></figure>
+<h4 id="Glide-v4实现高斯模糊"><a href="#Glide-v4实现高斯模糊" class="headerlink" title="Glide v4实现高斯模糊"></a>Glide v4实现高斯模糊</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.graphics.Bitmap;</span><br><span class="line"><span class="keyword">import</span> android.graphics.Canvas;</span><br><span class="line"><span class="keyword">import</span> android.graphics.Color;</span><br><span class="line"><span class="keyword">import</span> android.graphics.Paint;</span><br><span class="line"><span class="keyword">import</span> android.graphics.PorterDuff;</span><br><span class="line"><span class="keyword">import</span> android.graphics.PorterDuffColorFilter;</span><br><span class="line"><span class="keyword">import</span> android.support.annotation.FloatRange;</span><br><span class="line"><span class="keyword">import</span> android.support.annotation.NonNull;</span><br><span class="line"><span class="keyword">import</span> android.support.v8.renderscript.Allocation;</span><br><span class="line"><span class="keyword">import</span> android.support.v8.renderscript.Element;</span><br><span class="line"><span class="keyword">import</span> android.support.v8.renderscript.RenderScript;</span><br><span class="line"><span class="keyword">import</span> android.support.v8.renderscript.ScriptIntrinsicBlur;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;</span><br><span class="line"><span class="keyword">import</span> com.bumptech.glide.load.resource.bitmap.BitmapTransformation;</span><br><span class="line"><span class="keyword">import</span> com.bumptech.glide.request.target.Target;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.security.MessageDigest;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@time</span>:2018/6/9 at 12:07</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span>: glide实现高斯模糊</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BlurTransformation</span> <span class="keyword">extends</span> <span class="title">BitmapTransformation</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> DEFAULT_RADIUS = <span class="number">25.0f</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> MAX_RADIUS = <span class="number">25.0f</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> DEFAULT_SAMPLING = <span class="number">1.0f</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Context mContext;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> mSampling = DEFAULT_SAMPLING;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> mRadius;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mColor;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateDiskCacheKey</span><span class="params">(@NonNull MessageDigest messageDigest)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Builder</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> Context mContext;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">float</span> mRadius = DEFAULT_RADIUS;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span> mColor = Color.TRANSPARENT;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Builder</span><span class="params">(Context mContext)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.mContext = mContext;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">float</span> <span class="title">getRadius</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> mRadius;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Builder <span class="title">setRadius</span><span class="params">(<span class="keyword">float</span> radius)</span> </span>&#123;</span><br><span class="line">            mRadius = radius;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getColor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> mColor;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Builder <span class="title">setColor</span><span class="params">(<span class="keyword">int</span> color)</span> </span>&#123;</span><br><span class="line">            mColor = color;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> BlurTransformation <span class="title">build</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> BlurTransformation(mContext, mRadius, mColor);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> context Context</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> radius The blur's radius.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> color The color filter for blurring.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BlurTransformation</span><span class="params">(Context context, @FloatRange(from = <span class="number">0.0</span>f)</span> <span class="keyword">float</span> radius, <span class="keyword">int</span> color) </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context);</span><br><span class="line">        mContext = context;</span><br><span class="line">        <span class="keyword">if</span> (radius &gt; MAX_RADIUS) &#123;</span><br><span class="line">            mSampling = radius / <span class="number">25.0f</span>;</span><br><span class="line">            mRadius = MAX_RADIUS;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            mRadius = radius;</span><br><span class="line">        &#125;</span><br><span class="line">        mColor = color;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> context Context</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> radius The blur's radius.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BlurTransformation</span><span class="params">(Context context, @FloatRange(from = <span class="number">0.0</span>f)</span> <span class="keyword">float</span> radius) </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>(context, radius, Color.TRANSPARENT);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BlurTransformation</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>(context, DEFAULT_RADIUS);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Transforms the given &#123;<span class="doctag">@link</span> Bitmap&#125; based on the given dimensions and returns the transformed</span></span><br><span class="line"><span class="comment">     * result.</span></span><br><span class="line"><span class="comment">     * &lt;p/&gt;</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;</span></span><br><span class="line"><span class="comment">     * The provided Bitmap, toTransform, should not be recycled or returned to the pool. Glide will automatically</span></span><br><span class="line"><span class="comment">     * recycle and/or reuse toTransform if the transformation returns a different Bitmap. Similarly implementations</span></span><br><span class="line"><span class="comment">     * should never recycle or return Bitmaps that are returned as the result of this method. Recycling or returning</span></span><br><span class="line"><span class="comment">     * the provided and/or the returned Bitmap to the pool will lead to a variety of runtime exceptions and drawing</span></span><br><span class="line"><span class="comment">     * errors. See #408 for an example. If the implementation obtains and discards intermediate Bitmaps, they may</span></span><br><span class="line"><span class="comment">     * safely be returned to the BitmapPool and/or recycled.</span></span><br><span class="line"><span class="comment">     * &lt;/p&gt;</span></span><br><span class="line"><span class="comment">     * &lt;p/&gt;</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;</span></span><br><span class="line"><span class="comment">     * outWidth and outHeight will never be &#123;<span class="doctag">@link</span> Target#SIZE_ORIGINAL&#125;, this</span></span><br><span class="line"><span class="comment">     * class converts them to be the size of the Bitmap we're going to transform before calling this method.</span></span><br><span class="line"><span class="comment">     * &lt;/p&gt;</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> pool        A &#123;<span class="doctag">@link</span> BitmapPool&#125; that can be used to obtain and</span></span><br><span class="line"><span class="comment">     *                    return intermediate &#123;<span class="doctag">@link</span> Bitmap&#125;s used in this transformation. For every</span></span><br><span class="line"><span class="comment">     *                    &#123;<span class="doctag">@link</span> Bitmap&#125; obtained from the pool during this transformation, a</span></span><br><span class="line"><span class="comment">     *                    &#123;<span class="doctag">@link</span> Bitmap&#125; must also be returned.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> toTransform The &#123;<span class="doctag">@link</span> Bitmap&#125; to transform.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> outWidth    The ideal width of the transformed bitmap (the transformed width does not need to match exactly).</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> outHeight   The ideal height of the transformed bitmap (the transformed heightdoes not need to match</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> Bitmap <span class="title">transform</span><span class="params">(BitmapPool pool, Bitmap toTransform, <span class="keyword">int</span> outWidth, <span class="keyword">int</span> outHeight)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">boolean</span> needScaled = mSampling == DEFAULT_SAMPLING;</span><br><span class="line">        <span class="keyword">int</span> originWidth = toTransform.getWidth();</span><br><span class="line">        <span class="keyword">int</span> originHeight = toTransform.getHeight();</span><br><span class="line">        <span class="keyword">int</span> width, height;</span><br><span class="line">        <span class="keyword">if</span> (needScaled) &#123;</span><br><span class="line">            width = originWidth;</span><br><span class="line">            height = originHeight;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            width = (<span class="keyword">int</span>) (originWidth / mSampling);</span><br><span class="line">            height = (<span class="keyword">int</span>) (originHeight / mSampling);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//find a re-use bitmap</span></span><br><span class="line">        Bitmap bitmap = pool.get(width, height, Bitmap.Config.ARGB_8888);</span><br><span class="line">        <span class="keyword">if</span> (bitmap == <span class="keyword">null</span>) &#123;</span><br><span class="line">            bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Canvas canvas = <span class="keyword">new</span> Canvas(bitmap);</span><br><span class="line">        <span class="keyword">if</span> (mSampling != DEFAULT_SAMPLING) &#123;</span><br><span class="line">            canvas.scale(<span class="number">1</span> / mSampling, <span class="number">1</span> / mSampling);</span><br><span class="line">        &#125;</span><br><span class="line">        Paint paint = <span class="keyword">new</span> Paint();</span><br><span class="line">        paint.setFlags(Paint.FILTER_BITMAP_FLAG | Paint.ANTI_ALIAS_FLAG);</span><br><span class="line">        PorterDuffColorFilter filter =</span><br><span class="line">                <span class="keyword">new</span> PorterDuffColorFilter(mColor, PorterDuff.Mode.SRC_ATOP);</span><br><span class="line">        paint.setColorFilter(filter);</span><br><span class="line">        canvas.drawBitmap(toTransform, <span class="number">0</span>, <span class="number">0</span>, paint);</span><br><span class="line"><span class="comment">// TIPS: Glide will take care of returning our original Bitmap to the BitmapPool for us,</span></span><br><span class="line"><span class="comment">// we needn't to recycle it.</span></span><br><span class="line"><span class="comment">//        toTransform.recycle();  &lt;--- Just for tips. by Ligboy</span></span><br><span class="line"></span><br><span class="line">        RenderScript rs = RenderScript.create(mContext);</span><br><span class="line">        Allocation input = Allocation.createFromBitmap(rs, bitmap, Allocation.MipmapControl.MIPMAP_NONE,</span><br><span class="line">                Allocation.USAGE_SCRIPT);</span><br><span class="line">        Allocation output = Allocation.createTyped(rs, input.getType());</span><br><span class="line">        ScriptIntrinsicBlur blur = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));</span><br><span class="line"></span><br><span class="line">        blur.setInput(input);</span><br><span class="line">        blur.setRadius(mRadius);</span><br><span class="line">        blur.forEach(output);</span><br><span class="line">        output.copyTo(bitmap);</span><br><span class="line"></span><br><span class="line">        rs.destroy();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (needScaled) &#123;</span><br><span class="line">            <span class="keyword">return</span> bitmap;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            Bitmap scaled = Bitmap.createScaledBitmap(bitmap, originWidth, originHeight, <span class="keyword">true</span>);</span><br><span class="line">            bitmap.recycle();</span><br><span class="line">            <span class="keyword">return</span> scaled;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Glide.with(getActivity())</span><br><span class="line">        .load(resource)</span><br><span class="line">        .apply(<span class="keyword">new</span> RequestOptions().transform(<span class="keyword">new</span></span><br><span class="line">                BlurTransformation(getContext(),</span><br><span class="line">                <span class="number">100</span>)))</span><br><span class="line">        .into();</span><br></pre></td></tr></table></figure>
+<h4 id="如果宽度大于长度则旋转"><a href="#如果宽度大于长度则旋转" class="headerlink" title="如果宽度大于长度则旋转"></a>如果宽度大于长度则旋转</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Glide.with(getActivity())</span><br><span class="line">      .asBitmap()</span><br><span class="line">      .load(s)</span><br><span class="line">      .into(<span class="keyword">new</span> SimpleTarget&lt;Bitmap&gt;(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResourceReady</span><span class="params">(@NonNull Bitmap resource, @Nullable Transition&lt;? <span class="keyword">super</span> Bitmap&gt; transition)</span> </span>&#123;</span><br><span class="line">           <span class="keyword">if</span> (resource.getWidth() &gt; resource.getHeight()) &#123;</span><br><span class="line">           &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"><i class="fa fa-tag"></i> Android</a>
+          
+            <a href="/tags/App/" rel="tag"><i class="fa fa-tag"></i> App</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/11/ImageViewer/" rel="next" title="ImageViewer应用">
+                <i class="fa fa-chevron-left"></i> ImageViewer应用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/15/jsoup网页过大找不到内容/" rel="prev" title="jsoup获取不到完整内容">
+                jsoup获取不到完整内容 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+		<div class="sidebar-inner">
+
+		  
+
+		  
+			<ul class="sidebar-nav motion-element">
+			  <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+				文章目录
+			  </li>
+			  <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+				站点概览
+			  </li>
+			</ul>
+		  
+
+			  <section class="site-overview-wrap sidebar-panel">
+				<div class="site-overview">
+				  <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+					
+					  <img class="site-author-image" itemprop="image" src="/assets/img/head.jpg" alt="三毛六">
+					
+					  <p class="site-author-name" itemprop="name">三毛六</p>
+					  <p class="site-description motion-element" itemprop="description">编程学习，经验分享。<br>生活记录，文章摘抄。<br>随缘更新，欢迎收藏。</p>
+				  </div>
+
+				  
+					<nav class="site-state motion-element">
+					  
+						<div class="site-state-item site-state-posts">
+						
+						  <a href="/archives/">
+						
+							<span class="site-state-item-count">43</span>
+							<span class="site-state-item-name">日志</span>
+						  </a>
+						</div>
+					  
+
+					  
+
+					  
+						
+						
+						<div class="site-state-item site-state-tags">
+						  <a href="/tags/index.html">
+							
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							  
+							
+							<span class="site-state-item-count">30</span>
+							<span class="site-state-item-name">标签</span>
+						  </a>
+						</div>
+					  
+					</nav>
+				  
+
+				  
+					<div class="feed-link motion-element">
+					  <a href="/atom.xml" rel="alternate">
+						<i class="fa fa-rss"></i>
+						RSS
+					  </a>
+					</div>
+				  
+
+				  
+					<div class="links-of-author motion-element">
+					  
+						<span class="links-of-author-item">
+						  <a href="https://github.com/17750669630" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+						  
+						</span>
+					  
+						<span class="links-of-author-item">
+						  <a href="mailto:1164999589@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+						  
+						</span>
+					  
+						<span class="links-of-author-item">
+						  <a href="https://blog.csdn.net/lp1164999589" target="_blank" title="CSDN"><i class="fa fa-fw fa-globe"></i>CSDN</a>
+						  
+						</span>
+					  
+						<span class="links-of-author-item">
+						  <a href="https://weibo.com/lp1164999589" target="_blank" title="weibo"><i class="fa fa-fw fa-weibo"></i>weibo</a>
+						  
+						</span>
+					  
+					</div>
+				  
+
+				  
+				  
+
+				  
+				  
+
+				  
+					
+				  
+				  
+
+				</div>
+			  </section>
+
+			  
+			  <!--noindex-->
+				<section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+				  <div class="post-toc">
+
+					
+					  
+					
+
+					
+					  <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Glide-v4实现图片旋转"><span class="nav-number">1.</span> <span class="nav-text">Glide v4实现图片旋转</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Glide-v4实现高斯模糊"><span class="nav-number">2.</span> <span class="nav-text">Glide v4实现高斯模糊</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如果宽度大于长度则旋转"><span class="nav-number">3.</span> <span class="nav-text">如果宽度大于长度则旋转</span></a></li></ol></div>
+					
+
+				  </div>
+				</section>
+			  <!--/noindex-->
+			  
+
+			  
+		  
+				
+					<div class="audio-wrapper">
+						<audio loop="loop" preload="none" id="audioPlay">
+							<source src="/music/刘惜君 - 那时候的我.mp3" type="audio/mp3">
+							<!--<source src="https://coding.net/u/sanmaoliu/p/PrivatePhoto/git/raw/master/刘惜君那时候的我.mp3" type="audio/mp3">-->
+						</audio>
+						<div class="audio-left">
+						<img src="/images/play.png" id="audioPlayer">
+						</div>
+						<div class="audio-right">
+							<p style="max-width: 536px;">刘惜君-那时候的我</p>
+							<div class="progress-bar-bg" id="progressBarBg"><span id="progressDot"></span>
+								<div class="progress-bar" id="progressBar"></div>
+							</div>
+							<div class="audio-time"><span class="audio-length-current" id="audioCurTime">00:00</span><span class="audio-length-total" id="audioTotalTime">03:52</span></div>
+						</div>
+					</div>
+							
+				
+				
+
+			<!--<audio id="audio" src="/music/刘惜君 - 那时候的我.mp3" controls autoplay="true" width=230 height=86></audio>-->
+			<!--网易云音乐模块 iframe-->
+			<!--<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=255204&auto=0&height=66"></iframe>-->
+			<!--网易云音乐模块 flash-->
+			<!--<embed src="//music.163.com/style/swf/widget.swf?sid=255204&type=2&auto=0&width=200&height=32" width="200" height="52"  allowNetworking="all"></embed>-->
+		</div>
+		
+	<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function () {
+	// 控制音频文件名显示宽度
+
+	var maxW = $('.audio-right').width();
+	$('.audio-right p').css({
+		"max-width": maxW
+	});
+
+	initAudioEvent();
+	});
+
+	/**
+	 * 初始化音频控制事件
+	 */
+	function initAudioEvent() {
+		var audio = $('audio')[0];
+		$('#audioPlay').volume = 0.1;
+
+		// 点击播放/暂停图片时，控制音乐的播放与暂停
+		$('#audioPlayer').click(function () {
+			// 监听音频播放时间并更新进度条
+			audio.addEventListener('timeupdate', function () {
+				updateProgress(audio);
+			}, false);
+
+			// 监听播放完成事件
+			audio.addEventListener('ended', function () {
+				audioEnded();
+			}, false);
+
+			// 改变播放/暂停图片
+			if (audio.paused) {
+				// 开始播放当前点击的音频
+				audio.play();
+				$('#audioPlayer').attr('src', '/images/pause.png');
+			} else {
+				audio.pause();
+				$('#audioPlayer').attr('src', '/images/play.png');
+			}
+		});
+
+		
+		
+		// 点击进度条跳到指定点播放
+		// PS：此处不要用click，否则下面的拖动进度点事件有可能在此处触发，此时e.offsetX的值非常小，会导致进度条弹回开始处（简直不能忍！！）
+		$('#progressBarBg').on('mousedown', function (e) {
+			// 只有音乐开始播放后才可以调节，已经播放过但暂停了的也可以
+			if (!audio.paused) {
+				var pgsWidth = $('.progress-bar-bg').width();
+				var rate = e.offsetX / pgsWidth;
+				audio.currentTime = audio.duration * rate;
+				updateProgress(audio);
+			}
+			else if (audio.paused) {
+				audio.addEventListener('timeupdate', function () {
+					updateProgress(audio);
+				}, false);
+
+				// 监听播放完成事件
+				audio.addEventListener('ended', function () {
+					audioEnded();
+				}, false);
+
+				
+				var pgsWidth = $('.progress-bar-bg').width();
+				var rate = e.offsetX / pgsWidth;
+				
+				$('#progressBar').css('width', rate * 100 + '%');
+				$('#progressDot').css('left', rate * 100 + '%');
+				$('#audioCurTime').html(transTime(232 * rate));
+				
+				//audio.currentTime = audio.duration * rate;
+				audio.currentTime = 232 * rate;
+				
+				// 改变播放/暂停图片
+				// 开始播放当前点击的音频
+				audio.play();
+				$('#audioPlayer').attr('src', '/images/pause.png');
+	
+			}
+		});
+		
+		
+		
+	}
+
+	/**
+	 * 更新进度条与当前播放时间
+	 * @param {object} audio - audio对象
+	 */
+	function updateProgress(audio) {
+		var value = audio.currentTime / audio.duration;
+		$('#progressBar').css('width', value * 100 + '%');
+		$('#progressDot').css('left', value * 100 + '%');
+		$('#audioCurTime').html(transTime(audio.currentTime));
+	}
+
+	/**
+	 * 播放完成时把进度调回开始的位置
+	 */
+	function audioEnded() {
+		$('#progressBar').css('width', 0);
+		$('#progressDot').css('left', 0);
+		$('#audioCurTime').html('00:00');
+		$('#audioPlayer').attr('src', '/images/play.png');
+	}
+
+	/**
+	 * 音频播放时间换算
+	 * @param {number} value - 音频当前播放时间，单位秒
+	 */
+	function transTime(value) {
+		var time = "";
+		var h = parseInt(value / 3600);
+		value %= 3600;
+		var m = parseInt(value / 60);
+		var s = parseInt(value % 60);
+		if (h > 0) {
+			time = formatTime(h + ":" + m + ":" + s);
+		} else {
+			time = formatTime(m + ":" + s);
+		}
+
+		return time;
+	}
+
+	/**
+	 * 格式化时间显示，补零对齐
+	 * eg：2:4  -->  02:04
+	 * @param {string} value - 形如 h:m:s 的字符串 
+	 */
+	function formatTime(value) {
+		var time = "";
+		var s = value.split(':');
+		var i = 0;
+		for (; i < s.length - 1; i++) {
+			time += s[i].length == 1 ? ("0" + s[i]) : s[i];
+			time += ":";
+		}
+		time += s[i].length == 1 ? ("0" + s[i]) : s[i];
+
+		return time;
+	}
+	</script>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">三毛六</span>
+
+  
+
+  
+</div>
+
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:261343<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共48.2k字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="true"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.2.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+	
+	<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+	
+	
+	
+	
+	<!-- 页面点击小红心 -->
+	
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"react":{"opacityDefault":1,"opacityOnHover":1},"display":{"position":"left","width":150,"height":300,"vOffset":-120,"mobileShow":false},"log":false,"tagMode":false});</script></body>
+</html>
+
+
+
+<script type="text/javascript">
+/* 鼠标点击出现社会主义核心价值观 */
+var a_idx = 0;
+jQuery(document).ready(function($) {
+	var random=Math.floor(Math.random()*20+1);
+    var cls='change'+random;
+	$("body").attr("class", cls);
+
+    $("body").click(function(e) {
+		
+	var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正" ,"法治", "爱国", "敬业", "诚信", "友善");
+	var $i = $("<span/>").text(a[a_idx]);
+			a_idx = (a_idx + 1) % a.length;
+	var x = e.pageX,
+			y = e.pageY;
+			$i.css({
+				"z-index": 999,
+				"top": y - 20,
+				"left": x,
+				"position": "absolute",
+				"font-weight": "bold",
+				"color": "#ff6651",
+				"-webkit-user-select": "none",
+				"-moz-user-select": "none",
+				"-ms-user-select": "none",
+				"user-select": "none"
+			});
+			$("body").append($i);
+			$i.animate({
+				"top": y - 180,
+				"opacity": 0
+			},
+			1500,
+			function() {
+				$i.remove();
+			});
+			
+			
+    });
+});
+
+
+
+</script>
+
